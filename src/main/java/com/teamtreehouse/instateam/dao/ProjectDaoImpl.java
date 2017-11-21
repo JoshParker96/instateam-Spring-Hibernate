@@ -18,6 +18,14 @@ public class ProjectDaoImpl implements ProjectDao {
     private SessionFactory sessionFactory;
 
     @Override
+    public Project findById(int id) {
+        Session session = sessionFactory.openSession();
+        Project project = session.get(Project.class, id);
+        session.close();
+        return project;
+    }
+
+    @Override
     public void saveProject(Project project) {
 
         // Open sessionFactory

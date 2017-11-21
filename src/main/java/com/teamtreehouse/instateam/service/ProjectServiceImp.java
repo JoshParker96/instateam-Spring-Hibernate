@@ -16,6 +16,11 @@ public class ProjectServiceImp implements ProjectService {
 
 
     @Override
+    public Project findById(int id) {
+        return projectDao.findById(id);
+    }
+
+    @Override
     public void saveProject(Project project) {
         projectDao.saveProject(project);
     }
