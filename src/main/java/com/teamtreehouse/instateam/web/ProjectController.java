@@ -1,7 +1,10 @@
 package com.teamtreehouse.instateam.web;
 
 import com.teamtreehouse.instateam.model.Project;
+import com.teamtreehouse.instateam.model.Project.ProjectBuilder;
+import com.teamtreehouse.instateam.model.Role;
 import com.teamtreehouse.instateam.service.ProjectService;
+import com.teamtreehouse.instateam.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,9 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private RoleService roleService;
+
     // Index page
     @RequestMapping("/")
     public String listOfProjects(Model model) {
@@ -25,19 +31,21 @@ public class ProjectController {
         return "index";
     }
 
+    // Project create page
+    @RequestMapping("/project/create")
+    public String projectCreatePage(Model model) {
+        List<Role> roles = roleService.fetchAllRoles();
+        model.addAttribute("roles", roles);
+        model.addAttribute("project", new Project());
+        return "edit_project";
+    }
+
     // Project detail page
     @RequestMapping("/project/{projectId}")
     public String projecDetailPage(@PathVariable int id, Model model) {
         Project project = projectService.findById(id);
         model.addAttribute(project);
         return "project_detail";
-    }
-
-    // Project create page
-    @RequestMapping("/project/create")
-    public String projectCreatePage(Model model) {
-        model.addAttribute("project", new Project());
-        return "edit_project";
     }
 
     // Create project and redirect to index page

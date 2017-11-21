@@ -19,10 +19,8 @@ public class CollaboratorController {
 
     // Index of all collaborators
     @RequestMapping("/collaborators")
-    public String listOfAllCollaborators(Model model) {
-        List<Collaborator> collaborators = collaboratorService.fetchAllCollaborators();
-        model.addAttribute("collaborator", collaborators);
-        return "collaborators";
+    public String listOfAllCollaborators() {
+        return "project_collaborators";
     }
 
     // Create collaborator

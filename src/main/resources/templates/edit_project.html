@@ -13,16 +13,16 @@
         <header>
             <div class="container">
                 <div class="site-header">
-                    <a class="logo" href="index.html">InstaTeam</a>
+                    <a class="logo" th:href="@{/}">InstaTeam</a>
                     <a class="new-project button icon-left" href="#"><i class="material-icons">add</i> New Project</a>
                 </div>
             </div>
         </header>
         <nav>
             <ul>
-                <li class="selected"><a href="index.html">Projects</a></li>
-                <li><a href="collaborators.html">Collaborators</a></li>
-                <li><a href="roles.html">Roles</a></li>
+                <li class="selected"><a th:href="@{/}">Projects</a></li>
+                <li><a th:href="@{/collaborators}">Collaborators</a></li>
+                <li><a th:href="@{/roles}">Roles</a></li>
             </ul>
         </nav>
         <section>
@@ -50,21 +50,9 @@
                     <div>
                         <label>Project Roles:</label>
                         <ul class="checkbox-list">
-                            <li>
-                                <input type="checkbox" th:field="*{rolesNeeded}" value="Developer"/>
-                                <span class="primary"> Developer</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" th:field="*{rolesNeeded}" value="Designer"/>
-                                <span class="primary"> Designer</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" th:field="*{rolesNeeded}" value="QA"/>
-                                <span class="primary"> QA</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" th:field="*{rolesNeeded}" value="DevOps"/>
-                                <span class="primary"> DevOps</span>
+                            <li th:each="role : ${roles}">
+                                <input type="checkbox" th:field="*{rolesNeeded}" name="project_roles" th:value="${role.id}"/>
+                                <span th:text="${role.name}" class="primary"> Developer</span>
                             </li>
                         </ul>
                     </div>

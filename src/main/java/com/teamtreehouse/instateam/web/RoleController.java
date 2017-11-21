@@ -22,12 +22,13 @@ public class RoleController {
     public String listOfAllRoles(Model model) {
         List<Role> roles = roleService.fetchAllRoles();
         model.addAttribute("roles", roles);
+        model.addAttribute("role", new Role());
         return "roles";
     }
 
     // Create role
-    @RequestMapping(value = "/role/{role}/create" , method = RequestMethod.POST)
-    public String createRole(@PathVariable Role role) {
+    @RequestMapping(value = "/role/create", method = RequestMethod.POST)
+    public String createRole(Role role) {
         roleService.saveRole(role);
         return "redirect:/roles";
     }
