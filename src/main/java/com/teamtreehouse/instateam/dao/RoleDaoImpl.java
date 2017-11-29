@@ -18,6 +18,16 @@ public class RoleDaoImpl implements RoleDao {
     private SessionFactory sessionFactory;
 
     @Override
+    public Role findById(int id) {
+
+        Session session = sessionFactory.openSession();
+
+        Role role = session.get(Role.class, id);
+
+        return role;
+    }
+
+    @Override
     public void saveRole(Role role) {
 
         // Open sessionFactory

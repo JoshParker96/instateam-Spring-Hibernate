@@ -1,13 +1,19 @@
 package com.teamtreehouse.instateam.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Collaborator {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @NotNull
+    @Size(min = 2, max = 20)
     private String name;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Role role;
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
-<head>
+    <head>
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title>InstaTeam</title>
     <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/normalize.css"/>
-    <link rel="stylesheet" href="css/site.css"/>
+    <link type="text/css" rel="stylesheet" href="normalize.css"/>
+    <link type="text/css" rel="stylesheet" href="site.css"/>
 </head>
 <body>
 <header>
@@ -29,7 +29,7 @@
     <div class="container wrapper">
         <div class="project-list">
             <div th:each="project : ${projects}" class="project">
-                <h2><a th:href="@{|/project/${project.id}|}" th:text="${project.name}">Projects Name</a></h2>
+                <h2><a th:href="@{'/project/' + ${project.id}}" th:text="${project.name}">Projects Name</a></h2>
                 <p th:text="${project.description}">Projects Description</p>
                 <span class="tag active" th:text="${project.status}">Projects Status</span>
             </div>

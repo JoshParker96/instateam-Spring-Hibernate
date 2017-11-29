@@ -1,19 +1,32 @@
 package com.teamtreehouse.instateam.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @NotNull
+    @Size(min = 2, max = 20)
     private String name;
+
+    @NotNull
+    @Size(min = 3, max = 100)
     private String description;
+
     private String status;
+
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Role> rolesNeeded;
+
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Collaborator> collaborators;
 

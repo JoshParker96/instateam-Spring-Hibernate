@@ -35,7 +35,7 @@ public class ProjectDaoImpl implements ProjectDao {
         session.beginTransaction();
 
         // Save Project object
-        session.save(project);
+        session.saveOrUpdate(project);
 
         // Commit transaction
         session.getTransaction().commit();

@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf:1.2.6.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf:1.5.2.RELEASE'
     compile 'org.thymeleaf.extras:thymeleaf-extras-java8time:2.1.0.RELEASE'
     compile 'org.hashids:hashids:1.0.1'
     compile 'org.springframework:spring-orm:4.3.2.RELEASE'

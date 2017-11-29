@@ -14,7 +14,6 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleDao roleDao;
 
-
     @Override
     public void saveRole(Role role) {
         roleDao.saveRole(role);
@@ -28,5 +27,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void updateRole(Role role) {
         roleDao.updateRole(role);
+    }
+
+    @Override
+    public Role findById(int id) {
+        return roleDao.findById(id);
     }
 }
