@@ -1,17 +1,18 @@
 package com.teamtreehouse.instateam.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotNull
@@ -24,33 +25,25 @@ public class Project {
 
     private String status;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> rolesNeeded;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Collaborator> collaborators;
 
     // Default constructor for JPA
     public Project(){}
 
-    public Project(ProjectBuilder builder) {
-        this.name = builder.name;
-        this.description = builder.description;
-        this.status = builder.status;
-        this.rolesNeeded = builder.rolesNeeded;
-        this.collaborators = builder.collaborators;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", rolesNeeded=" + rolesNeeded +
-                ", collaborators=" + collaborators +
-                '}';
+    public Project(int id, String name, String description, String status,
+                   List<Role> rolesNeeded,
+                   List<Collaborator> collaborators) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.rolesNeeded = rolesNeeded;
+        this.collaborators = collaborators;
     }
 
     public int getId() {
@@ -100,50 +93,4 @@ public class Project {
     public void setCollaborators(List<Collaborator> collaborators) {
         this.collaborators = collaborators;
     }
-
-    public static class ProjectBuilder {
-
-        private int id;
-        private String name;
-        private String description;
-        private String status;
-        private List<Role> rolesNeeded;
-        private List<Collaborator> collaborators;
-
-        public ProjectBuilder withId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public ProjectBuilder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public ProjectBuilder withDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public ProjectBuilder withStatus(String status) {
-            this.status = status;
-            return this;
-        }
-
-        public ProjectBuilder withRolesNeeded(List<Role> rolesNeeded) {
-            this.rolesNeeded = rolesNeeded;
-            return this;
-        }
-
-        public ProjectBuilder withCollaborators(List<Collaborator> collaborators) {
-            this.collaborators = collaborators;
-            return this;
-        }
-
-        public Project build() {
-            return new Project(this);
-        }
-
-    }
-
 }

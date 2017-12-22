@@ -56,8 +56,9 @@
                         <label>Project Roles:</label>
                         <ul class="checkbox-list">
                             <li th:each="role : ${roles}">
-                                <input type="checkbox" th:field="*{rolesNeeded}" th:value="${role}"/>
-                                <span th:for="${#ids.prev('rolesNeeded')}" th:text="#{${'project.rolesNeeded.' + role}}">Role Name</span>
+                                <input type="checkbox" th:field="*{rolesNeeded}" th:value="${role.id}"/>
+                                <label th:for="${#ids.prev('rolesNeeded')}"
+                                       th:text="${role.name}">Role Name</label>
                             </li>
                         </ul>
                     </div>

@@ -16,6 +16,11 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 
     @Override
+    public Collaborator findById(int id) {
+        return collaboratorDao.findById(id);
+    }
+
+    @Override
     public void saveCollaborator(Collaborator c) {
         collaboratorDao.saveCollaborator(c);
     }

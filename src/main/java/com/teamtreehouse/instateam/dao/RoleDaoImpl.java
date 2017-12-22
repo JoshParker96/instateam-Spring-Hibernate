@@ -19,73 +19,37 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Role findById(int id) {
-
         Session session = sessionFactory.openSession();
-
         Role role = session.get(Role.class, id);
-
         return role;
     }
 
     @Override
     public void saveRole(Role role) {
-
-        // Open sessionFactory
         Session session = sessionFactory.openSession();
-
-        // Begin transaction
         session.beginTransaction();
-
-        // Save Role object
         session.save(role);
-
-        // Commit transaction
         session.getTransaction().commit();
-
-        // Close session
         session.close();
     }
 
     @Override
     public List<Role> fetchAllRoles() {
-
-        // Open SessionFactory
         Session session = sessionFactory.openSession();
-
-        // Create CriteriaBuilder
         CriteriaBuilder builder = session.getCriteriaBuilder();
-
-        // Create CriteriaQuery
         CriteriaQuery<Role> query = builder.createQuery(Role.class);
-
-        // Specify criteria root
         query.from(Role.class);
-
-        // Execute query
         List<Role> Roles = session.createQuery(query).getResultList();
-
-        // Close session
         session.close();
-
         return Roles;
     }
 
     @Override
     public void updateRole(Role role) {
-
-        // Open sessionFactory
         Session session = sessionFactory.openSession();
-
-        // Begin transaction
         session.beginTransaction();
-
-        // Update Role Object
         session.update(role);
-
-        // Commit transaction
         session.getTransaction().commit();
-
-        // Close session
         session.close();
     }
 }

@@ -27,26 +27,29 @@
         </nav>
         <section>
             <div class="container wrapper">
-                <form method="post" th:action="@{/collaborator/create}" th:object="${collaborator}">
+                <form method="post" th:action="@{/collaborator/manage}" th:object="${collaborator}">
                     <h2>Manage Collaborators</h2>
                     <ul class="checkbox-list">
-                        <li th:each=" collab : ${collaborators}" th:text="${collab.name}">
-                            <span class="primary">Collaborators Name</span>
+                        <li th:each="collab : ${collaborators}">
+                            <span class="primary" th:text="${collab.name}">Collaborators Name</span>
                             <div class="custom-select">
                                 <span class="dropdown-arrow"></span>
                                 <select>
-                                    <option>Role</option>
+                                    <option th:text="${collab.role.name}">Role</option>
                                 </select>
                             </div>
                         </li>
                     </ul>
+                </form>
+                <form method="post" th:action="@{/collaborator/add}" th:object="${collaborator}">
+                    <input type="hidden" th:field="*{id}"/>
                     <div class="actions add-new-collaborator">
                         <input th:field="*{name}" type="text" placeholder="Name..."/>
                         <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                         <div class="custom-select">
-                            <span class="dropdown-arrow"></span>
-                            <select>
-                                <option th:each="role : ${roles}" th:text="${role.name}" th:field="*{role}" th:value="${role.id}">Role...</option>
+                        <span class="dropdown-arrow"></span>
+                            <select th:field="*{role}">
+                                <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.id}">Role...</option>
                             </select>
                         </div>
                         <button class="button" th:href="@{/collaborator/create}">Add</button>

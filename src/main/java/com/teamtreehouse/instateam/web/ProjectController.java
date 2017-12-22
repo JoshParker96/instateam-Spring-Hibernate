@@ -1,8 +1,9 @@
 package com.teamtreehouse.instateam.web;
 
+import com.teamtreehouse.instateam.model.Collaborator;
 import com.teamtreehouse.instateam.model.Project;
-import com.teamtreehouse.instateam.model.Project.ProjectBuilder;
 import com.teamtreehouse.instateam.model.Role;
+import com.teamtreehouse.instateam.service.CollaboratorService;
 import com.teamtreehouse.instateam.service.ProjectService;
 import com.teamtreehouse.instateam.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +24,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private CollaboratorService collabService;
 
     @Autowired
     private RoleService roleService;
@@ -65,7 +68,7 @@ public class ProjectController {
             model.addAttribute("project", projectService.findById(id));
         }
 
-        model.addAttribute("action", String.format("/project/%s/edit", id));
+        model.addAttribute("action", String.format("/project/edit"));
         model.addAttribute("heading", "Edit Project");
         model.addAttribute("button", "update");
         return "edit_project";
@@ -76,13 +79,29 @@ public class ProjectController {
     public String projecDetailPage(@PathVariable int id, Model model) {
 
         Project project = projectService.findById(id);
+        List<Role> rolesNeeded = new ArrayList<>();
+        for (Role role : project.getRolesNeeded()) {
+            Role r = roleService.findById(role.getId());
+            rolesNeeded.add(r);
+        }
         model.addAttribute("project", project);
+        model.addAttribute("roles", rolesNeeded);
         return "project_detail";
     }
 
     // Projects collaborators page
-    @RequestMapping("/project/collaborators")
-    public String projectsCollaborators() {
+    @RequestMapping("/project/{id}/collaborators")
+    public String projectsCollaborators(@PathVariable int id, Model model) {
+
+        Project project = projectService.findById(id);
+        List<Role> roles = new ArrayList<>();
+        for (Role role : project.getRolesNeeded()) {
+            roles.add(role);
+        }
+        List<Collaborator> collaborators = collabService.fetchAllCollaborators();
+        model.addAttribute("project", project);
+        model.addAttribute("collaborators", collaborators);
+        model.addAttribute("roles", roles);
         return "project_collaborators";
     }
 
@@ -101,7 +120,7 @@ public class ProjectController {
     }
 
     // Update existing project and redirect to index page
-    @RequestMapping(value = "/project/{id}/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/project/edit", method = RequestMethod.POST)
     public String editProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if(result.hasErrors()) {
@@ -109,14 +128,27 @@ public class ProjectController {
             redirectAttributes.addFlashAttribute("project", project);
             return String.format("redirect:/project/%s/edit", project.getId());
         }
-
         projectService.updateProject(project);
         return "redirect:/";
     }
 
+    // Adding collaborator to project
+    @RequestMapping(value = "/project/collaborators", method = RequestMethod.POST)
+    public String assignCollaboratorsToProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
 
-    // Assigning collaborator to project
+        if(result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+            redirectAttributes.addFlashAttribute("project", project);
+            return String.format("redirect:/project/collaborators");
+        }
 
+        List<Collaborator> collaborators = new ArrayList<>();
+        for (Collaborator collabs : project.getCollaborators()) {
+            collaborators.add(collabs);
+        }
+        project.setCollaborators(collaborators);
+        projectService.saveProject(project);
+        return "redirect:/";
+    }
 
-    // Unassigning collaborator from project
 }

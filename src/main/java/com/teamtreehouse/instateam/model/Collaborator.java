@@ -7,18 +7,25 @@ import javax.validation.constraints.Size;
 @Entity
 public class Collaborator {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotNull
     @Size(min = 2, max = 20)
     private String name;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Role role;
 
     // Default constructor for JPA
     public Collaborator() {}
+
+    public Collaborator(int id, String name, Role role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+    }
 
     public int getId() {
         return id;

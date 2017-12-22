@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotNull
@@ -20,6 +20,11 @@ public class Role {
 
     // Default constructor for JPA
     public Role() {}
+
+    public Role(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

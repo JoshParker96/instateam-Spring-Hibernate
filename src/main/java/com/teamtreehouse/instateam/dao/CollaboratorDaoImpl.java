@@ -19,64 +19,39 @@ public class CollaboratorDaoImpl implements CollaboratorDao {
 
 
     @Override
-    public void saveCollaborator(Collaborator c) {
-
-        // Open sessionFactory
+    public Collaborator findById(int id) {
         Session session = sessionFactory.openSession();
+        Collaborator collaborator = session.get(Collaborator.class, id);
+        session.close();
+        return collaborator;
+    }
 
-        // Begin transaction
+    @Override
+    public void saveCollaborator(Collaborator c) {
+        Session session = sessionFactory.openSession();
         session.beginTransaction();
-
-        // Save Collaborator object
         session.save(c);
-
-        // Commit transaction
         session.getTransaction().commit();
-
-        // Close session
         session.close();
     }
 
     @Override
     public List<Collaborator> fetchAllCollaborators() {
-
-        // Open SessionFactory
         Session session = sessionFactory.openSession();
-
-        // Create CriteriaBuilder
         CriteriaBuilder builder = session.getCriteriaBuilder();
-
-        // Create CriteriaQuery
         CriteriaQuery<Collaborator> query = builder.createQuery(Collaborator.class);
-
-        // Specify criteria root
         query.from(Collaborator.class);
-
-        // Execute query
         List<Collaborator> collaborators = session.createQuery(query).getResultList();
-
-        // Close session
         session.close();
-
         return collaborators;
     }
 
     @Override
     public void updateCollaborator(Collaborator c) {
-
-        // Open sessionFactory
         Session session = sessionFactory.openSession();
-
-        // Begin Transaction
         session.beginTransaction();
-
-        // Edit Collaborator Object
         session.update(c);
-
-        // Commit transaction
         session.getTransaction().commit();
-
-        // Close session
         session.close();
     }
 }

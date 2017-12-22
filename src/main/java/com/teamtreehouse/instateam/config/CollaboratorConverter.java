@@ -1,35 +1,34 @@
-/*package com.teamtreehouse.instateam.dao;
+package com.teamtreehouse.instateam.config;
 
-import com.fasterxml.jackson.databind.util.Converter;
-import com.teamtreehouse.instateam.model.Role;
+import com.teamtreehouse.instateam.dao.CollaboratorDao;
+import com.teamtreehouse.instateam.model.Collaborator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class RoleConverter implements Converter<String, Role>
-{
+public class CollaboratorConverter implements Converter<String, Collaborator> {
+
     @Autowired
-    private RoleDao roleDao;
+    private CollaboratorDao collaboratorDao;
 
     @Override
-    public Role convert(String source)
-    {
-        return roleDao.findById(Integer.parseInt(source));
+    public Collaborator convert(String source) {
+        return collaboratorDao.findById(Integer.parseInt(source));
     }
 
     @Bean
-    public ConversionService getConversionService()
-    {
+    public ConversionService getConversionService() {
         ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean();
         Set<Converter> converters = new HashSet<>();
-        converters.add(new RoleConverter());
+        converters.add(new CollaboratorConverter());
         bean.setConverters(converters);
         return bean.getObject();
     }
-}*/
+}

@@ -34,15 +34,14 @@
                         <span th:text="${project.status}" class="tag active">Project Status</span>
                     </div>
                     <div class="roles-collaborators">
-                        <h3>Roles &amp; Collaborators</h3>
-                        <div class="list-item" th:each="role : ${rolesNeeded}">
-                            <span class="primary" th:text="${role.name}">Projects Roles</span>
-                            <span class="secondary">Collaborators assigned to projects roles</span>
+                        <h3>Roles Collaborators</h3>
+                        <div class="list-item" th:each="role : ${roles}">
+                            <span class="primary" th:text="${role.name}">role</span>
                         </div>
                     </div>
                     <div class="actions">
                         <a class="button" th:href="@{'/project/' + ${id} + '/edit'}">Edit Project</a>
-                        <a class="button" th:href="@{/project/collaborators}">Edit Collaborators</a>
+                        <a class="button" th:href="@{'/project/' + ${id} + '/collaborators'}">Edit Collaborators</a>
                     </div>
                 </div>
             </div>
