@@ -90,7 +90,11 @@ public class Project {
         return collaborators;
     }
 
-    public void setCollaborators(List<Collaborator> collaborators) {
-        this.collaborators = collaborators;
+    public void setCollaborators(Collaborator collaborator) {
+        collaborators.add(collaborator);
+    }
+
+    public void removeRole(Role role) {
+        rolesNeeded.remove(role);
     }
 }

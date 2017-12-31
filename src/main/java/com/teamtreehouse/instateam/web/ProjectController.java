@@ -13,11 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProjectController {
@@ -79,13 +81,11 @@ public class ProjectController {
     public String projecDetailPage(@PathVariable int id, Model model) {
 
         Project project = projectService.findById(id);
-        List<Role> rolesNeeded = new ArrayList<>();
-        for (Role role : project.getRolesNeeded()) {
-            Role r = roleService.findById(role.getId());
-            rolesNeeded.add(r);
-        }
+        List<Collaborator> collaborators = project.getCollaborators();
+
         model.addAttribute("project", project);
-        model.addAttribute("roles", rolesNeeded);
+        model.addAttribute("collaborators", collaborators);
+        model.addAttribute("roles", project.getRolesNeeded());
         return "project_detail";
     }
 
@@ -94,14 +94,11 @@ public class ProjectController {
     public String projectsCollaborators(@PathVariable int id, Model model) {
 
         Project project = projectService.findById(id);
-        List<Role> roles = new ArrayList<>();
-        for (Role role : project.getRolesNeeded()) {
-            roles.add(role);
-        }
         List<Collaborator> collaborators = collabService.fetchAllCollaborators();
+
         model.addAttribute("project", project);
         model.addAttribute("collaborators", collaborators);
-        model.addAttribute("roles", roles);
+        model.addAttribute("roles", project.getRolesNeeded());
         return "project_collaborators";
     }
 
@@ -127,28 +124,26 @@ public class ProjectController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
             redirectAttributes.addFlashAttribute("project", project);
             return String.format("redirect:/project/%s/edit", project.getId());
-        }
+    }
         projectService.updateProject(project);
         return "redirect:/";
     }
 
     // Adding collaborator to project
-    @RequestMapping(value = "/project/collaborators", method = RequestMethod.POST)
-    public String assignCollaboratorsToProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/project/{projectid}/addCollaborator", method = RequestMethod.POST)
+    public String assignCollaboratorsToProject(@PathVariable int projectid, @RequestParam int id) {
 
-        if(result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
-            redirectAttributes.addFlashAttribute("project", project);
-            return String.format("redirect:/project/collaborators");
-        }
+        Project project = projectService.findById(projectid);
+        Collaborator collaborator = collabService.findById(id);
 
-        List<Collaborator> collaborators = new ArrayList<>();
-        for (Collaborator collabs : project.getCollaborators()) {
-            collaborators.add(collabs);
-        }
-        project.setCollaborators(collaborators);
+        List<Role> rolesNeeded = new ArrayList<>();
+        rolesNeeded.addAll(project.getRolesNeeded().stream()
+                .filter(role -> role.getId() != collaborator.getRole().getId())
+                .collect(Collectors.toList()));
+
+        project.setRolesNeeded(rolesNeeded);
+        project.setCollaborators(collaborator);
         projectService.saveProject(project);
         return "redirect:/";
     }
-
 }

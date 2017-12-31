@@ -27,9 +27,9 @@
         </nav>
         <section>
             <div class="container wrapper">
-                <form method="post" th:action="@{/collaborator/manage}" th:object="${collaborator}">
-                    <h2>Manage Collaborators</h2>
-                    <ul class="checkbox-list">
+                <form method="post" th:action="@{/collaborator/add}" th:object="${collaborator}">
+                <h2>Available Collaborators</h2>
+                     <ul class="checkbox-list">
                         <li th:each="collab : ${collaborators}">
                             <span class="primary" th:text="${collab.name}">Collaborators Name</span>
                             <div class="custom-select">
@@ -40,8 +40,6 @@
                             </div>
                         </li>
                     </ul>
-                </form>
-                <form method="post" th:action="@{/collaborator/add}" th:object="${collaborator}">
                     <input type="hidden" th:field="*{id}"/>
                     <div class="actions add-new-collaborator">
                         <input th:field="*{name}" type="text" placeholder="Name..."/>

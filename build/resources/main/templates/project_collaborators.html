@@ -27,22 +27,22 @@
 </nav>
 <section>
     <div class="container wrapper">
-        <form method="post" th:action="@{'/project/' + ${id} '/collaborators'}" th:object="${project}">
-            <input type="hidden" th:field="*{id}"/>
-            <label th:text="|Edit Collaborators: ${project.name}|">Title</label>
-            <ul class="checkbox-list">
-                <li th:each="role : ${roles}"><span th:text="${role.name}" th:value="${role.id}" class="primary">Role</span>
-                    <div class="custom-select">
-                        <span class="dropdown-arrow"></span>
-                        <select>
-                            <option th:each="collab : ${collaborators}" th:text="${collab.name}">Collaborator</option>
-                        </select>
-                    </div>
-                </li>
-            </ul>
-            <div class="actions">
-                <input type="submit" value="Save" class="button"/>
-                <a th:href="@{/}" class="button button-secondary">Cancel</a>
+        <h3 th:text="${project.name + ': Roles Needed'}">Roles Needed</h3>
+        <ul>
+            <li th:each="role : ${roles}" th:text="${role.name}">roles</li>
+        </ul>
+        <h3>Assign collaborator to project</h3>
+        <form th:action="@{'/project/' + ${project.id} + '/addCollaborator'}" method="post" >
+            <div class="actions add-new-role">
+                <div class="custom-select">
+                    <span class="dropdown-arrow"></span>
+                    <select name="id">
+                        <option th:each="collab : ${collaborators}" th:value="${collab.id}"
+                                th:text="|${collab.name} - ${collab.role.name}|">Collaborator name - role
+                        </option>
+                    </select>
+                </div>
+                <button class="button" th:href="@{'/project/' + ${project.id} + '/addCollaborator}">Assign</button>
             </div>
         </form>
     </div>
