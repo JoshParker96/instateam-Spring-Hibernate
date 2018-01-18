@@ -6,8 +6,8 @@
     <title>InstaTeam</title>
     <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link type="text/css" rel="stylesheet" href="normalize.css"/>
-    <link type="text/css" rel="stylesheet" href="site.css"/>
+    <link rel="stylesheet" th:href="@{/normalize.css}"/>
+    <link rel="stylesheet" th:href="@{/site.css}"/>
 </head>
 <body>
 <header>
@@ -34,15 +34,12 @@
                 <span th:text="${project.status}" class="tag active">Project Status</span>
                 <h3>Collaborators</h3>
                 <ul>
-                    <li th:each="collab : ${collaborators}" th:text="|${collab.name} - ${collab.role.name
-                    }|"></li>
+                    <li th:each="collab : ${collaborators}" th:text="|${collab.name} - ${collab.role.name}|"></li>
                 </ul>
-            </div>
-            <div class="roles-collaborators">
-                <h3>Roles Needed</h3>
-                <div class="list-item" th:each="role : ${roles}">
-                    <span class="primary" th:text="${role.name}">role</span>
-                </div>
+                <h3>Roles</h3>
+                <ul>
+                    <li th:each="role : ${roles}" th:text="${role.name}"></li>
+                </ul>
             </div>
             <div class="actions">
                 <a class="button" th:href="@{'/project/' + ${id} + '/edit'}">Edit Project</a>

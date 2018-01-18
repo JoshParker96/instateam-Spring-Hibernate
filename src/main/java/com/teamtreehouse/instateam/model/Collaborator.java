@@ -21,8 +21,7 @@ public class Collaborator {
     // Default constructor for JPA
     public Collaborator() {}
 
-    public Collaborator(int id, String name, Role role) {
-        this.id = id;
+    public Collaborator(String name, Role role) {
         this.name = name;
         this.role = role;
     }

@@ -70,7 +70,7 @@ public class ProjectController {
             model.addAttribute("project", projectService.findById(id));
         }
 
-        model.addAttribute("action", String.format("/project/edit"));
+        model.addAttribute("action", "/project/edit");
         model.addAttribute("heading", "Edit Project");
         model.addAttribute("button", "update");
         return "edit_project";

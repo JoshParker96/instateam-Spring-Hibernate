@@ -12,8 +12,8 @@
     <orderEntry type="module" module-name="instateam_main" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-thymeleaf:1.5.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf.extras:thymeleaf-extras-java8time:2.1.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.hashids:hashids:1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-orm:4.3.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.hashids:hashids:1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-core:5.2.12.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat:tomcat-dbcp:8.0.23" level="project" />
     <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.184" level="project" />

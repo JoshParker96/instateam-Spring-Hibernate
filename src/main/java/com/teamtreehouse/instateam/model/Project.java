@@ -35,10 +35,9 @@ public class Project {
     // Default constructor for JPA
     public Project(){}
 
-    public Project(int id, String name, String description, String status,
+    public Project(String name, String description, String status,
                    List<Role> rolesNeeded,
                    List<Collaborator> collaborators) {
-        this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;

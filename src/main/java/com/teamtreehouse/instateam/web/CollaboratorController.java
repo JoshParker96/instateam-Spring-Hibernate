@@ -50,7 +50,6 @@ public class CollaboratorController {
             return "redirect:/collaborators";
         }
 
-
         collaboratorService.saveCollaborator(collaborator);
         return "redirect:/collaborators";
     }
